@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jpong.app.Controller">
+   <children>
+      <Button layoutX="411.0" layoutY="136.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Load Graph" textAlignment="CENTER" />
+      <Button layoutX="411.0" layoutY="78.0" mnemonicParsing="false" onAction="#showGenerate" prefHeight="25.0" prefWidth="130.0" text="Generate graph" textAlignment="CENTER" />
+      <Button layoutX="411.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Check connection" textAlignment="CENTER" />
+      <Button layoutX="411.0" layoutY="266.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Find paths" textAlignment="CENTER" />
+      <ScrollPane fx:id="scrollpane" layoutX="14.0" layoutY="14.0" prefHeight="364.0" prefWidth="364.0" />
+   </children>
+</AnchorPane>
