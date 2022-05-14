@@ -12,6 +12,10 @@ public class Graph {
 		nodes = new Node[number];
 	}
 
+	public int[] show_connected(int number) {
+		return nodes[number].show_all_node();
+	}
+
 	public void addNode(Node holder[], int columns, int rows) {
 		int counter = 0;
 		this.columns = columns;
@@ -37,8 +41,4 @@ public class Graph {
 		return nodes[number];
 	}
 
-	public void show_test(int number) {
-		for (int i = 0; i < 5; i++)
-			System.out.println(nodes[number].shownode(i));
-	}
 }

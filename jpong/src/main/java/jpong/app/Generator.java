@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.Random;
 
 public abstract class Generator {
+	public static final int maximum_number_of_elements_in_node = 5;
 	public double existance_chance = 0.9;
 
 	public double draw(double minimal_weight, double maximum_weight) {
@@ -22,14 +23,15 @@ public abstract class Generator {
 		printwrite.println(holder.show_rows() + " " + holder.show_columns());
 		for (Node node : holder.show_nodes()) {
 			printwrite.print("\t");
-			for (int i = 0; i < 5; i++) {
-				if (node.shownode(i) != -1 || node.showweights(i) != -1)
-					printwrite.print(node.shownode(i) + ":" + node.showweights(i) + " ");
+			for (int i = 0; i < maximum_number_of_elements_in_node; i++) {
+				if (node.show_node(i) != -1 || node.show_weights(i) != -1)
+					printwrite.print(" " + node.show_node(i) + " :" + node.show_weights(i) + " ");
 			}
 			printwrite.print(System.getProperty("line.separator"));
 		}
 		printwrite.close();
 	}
+
 	public void increase_chance() {
 		existance_chance = existance_chance + 0.02;
 	}

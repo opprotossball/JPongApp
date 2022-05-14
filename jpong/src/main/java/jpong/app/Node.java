@@ -1,15 +1,17 @@
 package jpong.app;
 
 public class Node {
+	public static final int maximum_number_of_elements_in_node = 5;
+	public static final int basic_value = -1;
 	private int[] connected;
 	private double[] weights;
 
 	public Node() {
-		connected = new int[5];
-		weights = new double[5];
-		for (int i = 0; i < 5; i++) {
-			connected[i] = -1;
-			weights[i] = -1;
+		connected = new int[maximum_number_of_elements_in_node];
+		weights = new double[maximum_number_of_elements_in_node];
+		for (int i = 0; i < maximum_number_of_elements_in_node; i++) {
+			connected[i] = basic_value;
+			weights[i] = basic_value;
 		}
 	}
 
@@ -18,11 +20,19 @@ public class Node {
 		System.arraycopy(weight, 0, weights, 0, weight.length);
 	}
 
-	public int shownode(int number) {
+	public int show_node(int number) {
 		return connected[number];
 	}
 
-	public double showweights(int number) {
-		return this.weights[number];
+	public int[] show_all_node() {
+		return connected;
+	}
+
+	public double show_weights(int number) {
+		return weights[number];
+	}
+
+	public double[] show_all_weights() {
+		return weights;
 	}
 }
