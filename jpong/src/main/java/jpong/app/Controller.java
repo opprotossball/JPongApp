@@ -168,7 +168,7 @@ public class Controller {
             columns = newGraph.show_columns();
             rows = newGraph.show_rows();
         }
-        StackPane[] stack = new StackPane[columns * rows]; /*!!!!!!!!!!!!!!!!!!!!!remember you need to do this manually !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+        StackPane[] stack = new StackPane[columns * rows]; 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 final Text text = new Text(String.valueOf(count));
