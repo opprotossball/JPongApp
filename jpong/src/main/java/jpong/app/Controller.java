@@ -10,10 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
@@ -22,7 +19,7 @@ import javafx.scene.*;
 
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Controller {
     enum Mode {
@@ -39,8 +36,11 @@ public class Controller {
     private static final double BUTTONS_PER_LINE = 50;
     private static final double NUM_BUTTON_LINES = 50;
     private static final double radius = 25;
-    private static final Color lineColor = Color.FIREBRICK.deriveColor(0, 1, 1, .6);
+    private static double max_weights = 0;
+    private static double min_weights = 0;
+    private static final Color slider_background = Color.rgb(77,77,77);
     private static Mode mode = Mode.CONNECTED;
+    private static Graph newGraph;
 
     private static double textToDouble(double var, String str) {
         try {
@@ -129,7 +129,6 @@ public class Controller {
             return;
         }
         outFile = outFileGenerate.getText();
-        Graph newGraph = new Graph(rows * columns);
         Generator generator = null;
         switch (mode) {
             case ALL:
@@ -148,38 +147,77 @@ public class Controller {
         } catch (IOException e) {
             showInputError("File name not specified");
         }
+        max_weights = maxWeight;
+        min_weights = minWeight;
     }
-
+    public Color colorize(double value){
+        double part = value/(max_weights-min_weights);
+        int color = (int)(220 - part * 220);
+        Color new_color = Color.rgb(color,color,220);
+        return new_color;
+    }
     public void initialize() {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(0));
         grid.setHgap(0);
         grid.setVgap(0);
         int count = 0;
-        StackPane[] stack = new StackPane[50 * 50]; /*!!!!!!!!!!!!!!!!!!!!!remember you need to do this manually !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-        for (int r = 0; r < NUM_BUTTON_LINES; r++) {
-            for (int c = 0; c < BUTTONS_PER_LINE; c++) {
+        int columns = 0;
+        int rows = 0;
+        if(newGraph != null){
+            columns = newGraph.show_columns();
+            rows = newGraph.show_rows();
+        }
+        StackPane[] stack = new StackPane[columns * rows]; /*!!!!!!!!!!!!!!!!!!!!!remember you need to do this manually !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
                 final Text text = new Text(String.valueOf(count));
-                text.setFont(new Font(15));
+                text.setFont(new Font(40));
+                if(columns > 99 || rows  > 99){
+                    text.setFont(new Font(15));
+                    text.setStyle("-fx-font-weight: bold");
+                }
                 text.setBoundsType(TextBoundsType.VISUAL);
                 Circle circle = new Circle(radius);
-                circle.setStroke(Color.FORESTGREEN);
+                circle.setStroke(Color.WHITE);
                 circle.setStrokeWidth(5);
                 circle.setStrokeType(StrokeType.INSIDE);
                 circle.setFill(Color.AZURE);
                 circle.relocate(0, 0);
+
+                jpong.app.Node check_nodes = newGraph.show_node(count);
+                int [] connected = check_nodes.showallnode();
+                double [] weights = check_nodes.showallweights();
                 Line l1 = new Line(2 * radius + 2.5, radius, 3 * radius + 0.5, radius);
-                l1.setStroke(Color.RED);
-                l1.setStrokeWidth(5);
+                l1.setStrokeWidth(0);
                 Line l2 = new Line(-2.5, radius, -radius - 0.5, radius);
-                l2.setStroke(Color.YELLOW);
-                l2.setStrokeWidth(5);
+                l2.setStrokeWidth(0);
                 Line l3 = new Line(radius, -2.5, radius, -radius - 0.5);
-                l3.setStroke(Color.BLUE);
-                l3.setStrokeWidth(5);
+                l3.setStrokeWidth(0);
                 Line l4 = new Line(radius, 2 * radius + 2.5, radius, 3 * radius + 0.5);
-                l4.setStroke(Color.BLACK);
-                l4.setStrokeWidth(5);
+                l4.setStrokeWidth(0);
+                int weight_counter = 0;
+                for(int element:connected) {
+                    if(element != -1) {
+                        if (element == count+1 && columns != 1) {
+                            l1.setStroke(colorize(weights[weight_counter]));
+                            l1.setStrokeWidth(5);
+                        }
+                        if (element == count-1 && columns != 1) {
+                            l2.setStroke(colorize(weights[weight_counter]));
+                            l2.setStrokeWidth(5);
+                        }
+                        if (element == count-columns) {
+                            l3.setStroke(colorize(weights[weight_counter]));
+                            l3.setStrokeWidth(5);
+                        }
+                        if (element == count+columns) {
+                            l4.setStroke(colorize(weights[weight_counter]));
+                            l4.setStrokeWidth(5);
+                        }
+                    }
+                    weight_counter++;
+                }
                 stack[count] = new StackPane();
                 final int counter = count;
                 stack[count].getChildren().addAll(circle, text);
@@ -196,7 +234,22 @@ public class Controller {
                 count++;
             }
         }
-        scrollpane.setContent(grid);
+        if(columns<4 || rows <4){
+            VBox grid_container = new VBox();
+            grid_container.setMinSize(364,364);
+            grid_container.getChildren().addAll(grid);
+            VBox.setMargin(grid, new Insets(radius,0,0,radius));
+            grid_container.setBackground(new Background(new BackgroundFill(slider_background, CornerRadii.EMPTY, Insets.EMPTY)));
+            scrollpane.setContent(grid_container);
+        }
+        else {
+            VBox grid_container = new VBox();
+            grid_container.getChildren().addAll(grid);
+            VBox.setMargin(grid, new Insets(radius,0,0,radius));
+            grid_container.setBackground(new Background(new BackgroundFill(slider_background, CornerRadii.EMPTY, Insets.EMPTY)));
+            scrollpane.setContent(grid_container);
+
+        }
     }
 
     public void showMain(ActionEvent event) throws IOException {

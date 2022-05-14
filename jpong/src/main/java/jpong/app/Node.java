@@ -21,8 +21,14 @@ public class Node {
 	public int shownode(int number) {
 		return connected[number];
 	}
+	public int[] showallnode(){
+		return connected;
+	}
 
 	public double showweights(int number) {
 		return this.weights[number];
+	}
+	public double[] showallweights(){
+		return weights;
 	}
 }
