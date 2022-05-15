@@ -20,16 +20,13 @@ public class CheckConnection extends Graph {
 		queue.add(START);
 		previous[START] = 0;
 		while (queue.size() != 0) {
-			top_of_queue = queue.pollLast();
-			if (queue.isEmpty() == false) {
-				queue.removeFirst();
-			}
+			top_of_queue = queue.pollFirst();
 			Node node = graph.show_node(top_of_queue);
 			int element_counter = 0;
-			while (node.shownode(element_counter) != -1) {
-				if (previous[node.shownode(element_counter)] == -1) {
-					queue.addLast(node.shownode(element_counter));
-					previous[node.shownode(element_counter)] = top_of_queue;
+			while (node.show_node(element_counter) != -1) {
+				if (previous[node.show_node(element_counter)] == -1) {
+					queue.addLast(node.show_node(element_counter));
+					previous[node.show_node(element_counter)] = top_of_queue;
 				}
 				element_counter++;
 			}
