@@ -8,7 +8,6 @@ public class ConnectedEdges extends RandomEdges {
 		full_graph = super.generate(minimal_weight, maximum_weight, columns, rows);
 		if (checker.checkconnection(full_graph) != 0) {
 			while (checker.checkconnection(full_graph) != 0) {
-				System.out.println("here");
 				full_graph = super.generate(minimal_weight, maximum_weight, columns, rows);
 				increase_chance();
 			}
