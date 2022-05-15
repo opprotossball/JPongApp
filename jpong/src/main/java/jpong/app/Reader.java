@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Reader {
 	public static Graph readGraph(String path) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(path));
+		BufferedReader br = new BufferedReader(new FileReader("./" + path));
 		String line;
 		int graph_counter = 0;
 		line = br.readLine();

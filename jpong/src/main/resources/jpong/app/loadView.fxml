@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jpong.app.LoadController">
+   <children>
+      <TextField fx:id="outFileLoad" layoutX="217.0" layoutY="188.0" prefHeight="25.0" prefWidth="166.0" />
+      <Text layoutX="240.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter file name:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="242.0" layoutY="340.0" mnemonicParsing="false" onAction="#showMain" text="Back to main menu" />
+      <Button layoutX="242.0" layoutY="305.0" mnemonicParsing="false" onAction="#loadGraph" prefHeight="25.0" prefWidth="118.0" text="Load graph!" />
+   </children>
+</AnchorPane>
